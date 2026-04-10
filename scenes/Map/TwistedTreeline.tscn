@@ -1,0 +1,75 @@
+[gd_scene load_steps=9 format=3 uid="uid://twisted_treeline_map"]
+
+[ext_resource type="Script" path="res://scripts/map/MapSetup.gd" id="1_setup"]
+[ext_resource type="Script" path="res://scripts/systems/WaveManager.gd" id="2_wave"]
+[ext_resource type="PackedScene" path="res://scenes/Units/Minion.tscn" id="3_minion"]
+[ext_resource type="PackedScene" path="res://scenes/Map/Tower.tscn" id="4_tower"]
+[ext_resource type="PackedScene" path="res://scenes/Map/Nexus.tscn" id="5_nexus"]
+[ext_resource type="PackedScene" path="res://scenes/Map/Altar.tscn" id="6_altar"]
+[ext_resource type="PackedScene" path="res://scenes/Units/Vilemaw.tscn" id="7_vilemaw"]
+[ext_resource type="PackedScene" path="res://scenes/Map/HealthPack.tscn" id="8_hpack"]
+[ext_resource type="PackedScene" path="res://scenes/map/JungleCamp.tscn" id="9_camp"]
+
+[node name="TwistedTreeline" type="Node2D"]
+script = ExtResource("1_setup")
+tower_scene = ExtResource("4_tower")
+nexus_scene = ExtResource("5_nexus")
+altar_scene = ExtResource("6_altar")
+vilemaw_scene = ExtResource("7_vilemaw")
+health_pack_scene = ExtResource("8_hpack")
+jungle_camp_scene = ExtResource("9_camp")
+nav_region = NodePath("NavigationRegion2D")
+
+[node name="Background" type="ColorRect" parent="."]
+color = Color(0.12, 0.18, 0.1, 1)
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 3200.0
+offset_bottom = 2000.0
+z_index = -10
+
+[node name="TopLane" type="ColorRect" parent="."]
+color = Color(0.22, 0.28, 0.16, 1)
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 3200.0
+offset_bottom = 450.0
+z_index = -9
+
+[node name="BotLane" type="ColorRect" parent="."]
+color = Color(0.22, 0.28, 0.16, 1)
+offset_left = 0.0
+offset_top = 1550.0
+offset_right = 3200.0
+offset_bottom = 2000.0
+z_index = -9
+
+[node name="BlueBase" type="ColorRect" parent="."]
+color = Color(0.15, 0.2, 0.4, 1)
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 350.0
+offset_bottom = 2000.0
+z_index = -8
+
+[node name="RedBase" type="ColorRect" parent="."]
+color = Color(0.4, 0.15, 0.15, 1)
+offset_left = 2850.0
+offset_top = 0.0
+offset_right = 3200.0
+offset_bottom = 2000.0
+z_index = -8
+
+[node name="Jungle" type="ColorRect" parent="."]
+color = Color(0.1, 0.22, 0.1, 1)
+offset_left = 350.0
+offset_top = 450.0
+offset_right = 2850.0
+offset_bottom = 1550.0
+z_index = -9
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+
+[node name="WaveManager" type="Node" parent="."]
+script = ExtResource("2_wave")
+minion_scene = ExtResource("3_minion")

@@ -1,0 +1,272 @@
+[gd_scene load_steps=2 format=3 uid="uid://hud_scene"]
+
+[ext_resource type="Script" path="res://scripts/ui/HUD.gd" id="1_hud"]
+
+[node name="HUD" type="CanvasLayer"]
+layer = 5
+script = ExtResource("1_hud")
+
+[node name="GameTimer" type="Label" parent="."]
+unique_name_in_owner = true
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -50.0
+offset_top = 8.0
+offset_right = 50.0
+offset_bottom = 28.0
+horizontal_alignment = 1
+text = "00:00"
+theme_override_font_sizes/font_size = 18
+
+[node name="ChampionPanel" type="Panel" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = -110.0
+offset_right = 200.0
+offset_bottom = 0.0
+
+[node name="ChampName" type="Label" parent="ChampionPanel"]
+unique_name_in_owner = true
+offset_left = 10.0
+offset_top = 5.0
+offset_right = 190.0
+offset_bottom = 22.0
+text = "Champion"
+theme_override_font_sizes/font_size = 14
+
+[node name="HPBar" type="ProgressBar" parent="ChampionPanel"]
+unique_name_in_owner = true
+offset_left = 10.0
+offset_top = 25.0
+offset_right = 190.0
+offset_bottom = 42.0
+min_value = 0.0
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="HPLabel" type="Label" parent="ChampionPanel"]
+unique_name_in_owner = true
+offset_left = 10.0
+offset_top = 44.0
+offset_right = 190.0
+offset_bottom = 58.0
+text = "690 / 690"
+theme_override_font_sizes/font_size = 10
+
+[node name="ManaBar" type="ProgressBar" parent="ChampionPanel"]
+unique_name_in_owner = true
+offset_left = 10.0
+offset_top = 60.0
+offset_right = 190.0
+offset_bottom = 74.0
+min_value = 0.0
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="ManaLabel" type="Label" parent="ChampionPanel"]
+unique_name_in_owner = true
+offset_left = 10.0
+offset_top = 76.0
+offset_right = 190.0
+offset_bottom = 90.0
+text = "0 / 0"
+theme_override_font_sizes/font_size = 10
+
+[node name="AbilityBar" type="HBoxContainer" parent="ChampionPanel"]
+offset_left = 8.0
+offset_top = 92.0
+offset_right = 192.0
+offset_bottom = 108.0
+
+[node name="AbilityQ" type="Panel" parent="ChampionPanel/AbilityBar"]
+custom_minimum_size = Vector2(44, 44)
+
+[node name="QLabelKey" type="Label" parent="ChampionPanel/AbilityBar/AbilityQ"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 20.0
+offset_bottom = 16.0
+text = "Q"
+theme_override_font_sizes/font_size = 10
+
+[node name="QCooldown" type="Label" parent="ChampionPanel/AbilityBar/AbilityQ"]
+unique_name_in_owner = true
+offset_left = 2.0
+offset_top = 26.0
+offset_right = 42.0
+offset_bottom = 42.0
+text = ""
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+
+[node name="AbilityW" type="Panel" parent="ChampionPanel/AbilityBar"]
+custom_minimum_size = Vector2(44, 44)
+
+[node name="WLabelKey" type="Label" parent="ChampionPanel/AbilityBar/AbilityW"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 20.0
+offset_bottom = 16.0
+text = "W"
+theme_override_font_sizes/font_size = 10
+
+[node name="WCooldown" type="Label" parent="ChampionPanel/AbilityBar/AbilityW"]
+unique_name_in_owner = true
+offset_left = 2.0
+offset_top = 26.0
+offset_right = 42.0
+offset_bottom = 42.0
+text = ""
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+
+[node name="AbilityE" type="Panel" parent="ChampionPanel/AbilityBar"]
+custom_minimum_size = Vector2(44, 44)
+
+[node name="ELabelKey" type="Label" parent="ChampionPanel/AbilityBar/AbilityE"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 20.0
+offset_bottom = 16.0
+text = "E"
+theme_override_font_sizes/font_size = 10
+
+[node name="ECooldown" type="Label" parent="ChampionPanel/AbilityBar/AbilityE"]
+unique_name_in_owner = true
+offset_left = 2.0
+offset_top = 26.0
+offset_right = 42.0
+offset_bottom = 42.0
+text = ""
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+
+[node name="AbilityR" type="Panel" parent="ChampionPanel/AbilityBar"]
+custom_minimum_size = Vector2(44, 44)
+
+[node name="RLabelKey" type="Label" parent="ChampionPanel/AbilityBar/AbilityR"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 20.0
+offset_bottom = 16.0
+text = "R"
+theme_override_font_sizes/font_size = 10
+
+[node name="RCooldown" type="Label" parent="ChampionPanel/AbilityBar/AbilityR"]
+unique_name_in_owner = true
+offset_left = 2.0
+offset_top = 26.0
+offset_right = 42.0
+offset_bottom = 42.0
+text = ""
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+
+[node name="GoldPanel" type="Panel" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -50.0
+offset_right = 140.0
+offset_bottom = -10.0
+
+[node name="GoldLabel" type="Label" parent="GoldPanel"]
+unique_name_in_owner = true
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 130.0
+offset_bottom = 40.0
+text = "Gold: 1375"
+theme_override_font_sizes/font_size = 14
+
+[node name="LevelPanel" type="Panel" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 150.0
+offset_top = -50.0
+offset_right = 240.0
+offset_bottom = -10.0
+
+[node name="LevelLabel" type="Label" parent="LevelPanel"]
+unique_name_in_owner = true
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 85.0
+offset_bottom = 40.0
+text = "Lv: 1"
+theme_override_font_sizes/font_size = 14
+
+[node name="AltarPanel" type="Panel" parent="."]
+offset_left = 10.0
+offset_top = 40.0
+offset_right = 200.0
+offset_bottom = 100.0
+
+[node name="AltarALabel" type="Label" parent="AltarPanel"]
+unique_name_in_owner = true
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 190.0
+offset_bottom = 22.0
+text = "Altar A: Neutral"
+theme_override_font_sizes/font_size = 11
+
+[node name="AltarBLabel" type="Label" parent="AltarPanel"]
+unique_name_in_owner = true
+offset_left = 5.0
+offset_top = 25.0
+offset_right = 190.0
+offset_bottom = 42.0
+text = "Altar B: Neutral"
+theme_override_font_sizes/font_size = 11
+
+[node name="VilemawPanel" type="Panel" parent="."]
+unique_name_in_owner = true
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -90.0
+offset_top = 35.0
+offset_right = 90.0
+offset_bottom = 60.0
+visible = false
+
+[node name="VilemawLabel" type="Label" parent="VilemawPanel"]
+unique_name_in_owner = true
+offset_left = 5.0
+offset_top = 3.0
+offset_right = 175.0
+offset_bottom = 22.0
+text = "Vilemaw: 10:00"
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+
+[node name="Scoreboard" type="Panel" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -130.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 65.0
+
+[node name="BlueScore" type="Label" parent="Scoreboard"]
+unique_name_in_owner = true
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 120.0
+offset_bottom = 30.0
+text = "Blue: 0"
+theme_override_font_sizes/font_size = 13
+
+[node name="RedScore" type="Label" parent="Scoreboard"]
+unique_name_in_owner = true
+offset_left = 5.0
+offset_top = 33.0
+offset_right = 120.0
+offset_bottom = 58.0
+text = "Red:  0"
+theme_override_font_sizes/font_size = 13

@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://main_scene"]
+
+[ext_resource type="Script" path="res://scripts/ui/Main.gd" id="1_main"]
+[ext_resource type="PackedScene" path="res://scenes/Map/TwistedTreeline.tscn" id="2_map"]
+[ext_resource type="PackedScene" path="res://scenes/UI/HUD.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/UI/VictoryScreen.tscn" id="4_vic"]
+[ext_resource type="Script" path="res://scripts/systems/FogOfWar.gd" id="5_fog"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="Map" parent="." instance=ExtResource("2_map")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.6, 0.6)
+limit_left = 0
+limit_top = 0
+limit_right = 3200
+limit_bottom = 2000
+enabled = true
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="VictoryScreen" parent="." instance=ExtResource("4_vic")]
+
+[node name="FogOfWar" type="CanvasLayer" parent="."]
+layer = 10
+script = ExtResource("5_fog")

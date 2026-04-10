@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://champ_select_main"]
+
+[ext_resource type="PackedScene" path="res://scenes/UI/ChampionSelect.tscn" id="1_cs"]
+
+; This is the standalone scene for the champion select screen.
+; project.godot points main_scene here for the initial flow.
+; ChampionSelect.gd handles the transition to Main.tscn.
+
+[node name="ChampionSelectRoot" type="Node"]
+
+[node name="ChampionSelect" parent="." instance=ExtResource("1_cs")]

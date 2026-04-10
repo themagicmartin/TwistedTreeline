@@ -1,0 +1,4 @@
+res://scripts/champion/ChampionBase.gd
+res://scripts/systems/AbilitySystem.gd
+res://scripts/systems/CombatSystem.gd
+res://scripts/systems/StatusEffect.gd

@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://garen_scene"]
+
+[ext_resource type="Script" path="res://scripts/champion/garen/Garen.gd" id="1_garen"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g"]
+radius = 26.0
+
+[node name="Garen" type="CharacterBody2D"]
+script = ExtResource("1_garen")
+collision_layer = 1
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_g")
+
+[node name="Sprite2D" type="ColorRect" parent="."]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+color = Color(0.2, 0.4, 0.9, 1)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 4.0
+target_desired_distance = 4.0
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -30.0
+offset_top = -50.0
+offset_right = 30.0
+offset_bottom = -42.0
+min_value = 0.0
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="NameLabel" type="Label" parent="."]
+offset_left = -40.0
+offset_top = -65.0
+offset_right = 40.0
+offset_bottom = -52.0
+horizontal_alignment = 1
+text = "Garen"
+theme_override_font_sizes/font_size = 10

@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://champion_base"]
+
+[ext_resource type="Script" path="res://scripts/champion/ChampionBase.gd" id="1_base"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+radius = 24.0
+
+[node name="ChampionBase" type="CharacterBody2D"]
+script = ExtResource("1_base")
+collision_layer = 1
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1, 1)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 4.0
+target_desired_distance = 4.0
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -30.0
+offset_top = -50.0
+offset_right = 30.0
+offset_bottom = -42.0
+min_value = 0.0
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="NameLabel" type="Label" parent="."]
+offset_left = -40.0
+offset_top = -65.0
+offset_right = 40.0
+offset_bottom = -52.0
+horizontal_alignment = 1
+text = "Champion"
+theme_override_font_sizes/font_size = 10
+
+[node name="AttackRangeIndicator" type="Node2D" parent="."]
+visible = false

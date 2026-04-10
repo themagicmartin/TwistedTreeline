@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=3 uid="uid://victory_scene"]
+
+[ext_resource type="Script" path="res://scripts/ui/VictoryScreen.gd" id="1_vic"]
+
+[node name="VictoryScreen" type="CanvasLayer"]
+layer = 20
+visible = false
+script = ExtResource("1_vic")
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.7)
+
+[node name="CenterContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -120.0
+offset_right = 180.0
+offset_bottom = 120.0
+alignment = 1
+theme_override_constants/separation = 16
+
+[node name="ResultLabel" type="Label" parent="CenterContainer"]
+unique_name_in_owner = true
+horizontal_alignment = 1
+text = "VICTORY"
+theme_override_font_sizes/font_size = 48
+
+[node name="TeamLabel" type="Label" parent="CenterContainer"]
+unique_name_in_owner = true
+horizontal_alignment = 1
+text = "Blue Team Wins!"
+theme_override_font_sizes/font_size = 24
+
+[node name="TimeLabel" type="Label" parent="CenterContainer"]
+unique_name_in_owner = true
+horizontal_alignment = 1
+text = "Game time: 00:00"
+theme_override_font_sizes/font_size = 16
+
+[node name="PlayAgainButton" type="Button" parent="CenterContainer"]
+unique_name_in_owner = true
+text = "Play Again"
+custom_minimum_size = Vector2(200, 50)
+
+[node name="MainMenuButton" type="Button" parent="CenterContainer"]
+unique_name_in_owner = true
+text = "Main Menu"
+custom_minimum_size = Vector2(200, 50)

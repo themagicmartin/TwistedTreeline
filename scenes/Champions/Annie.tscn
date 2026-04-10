@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://annie_scene"]
+
+[ext_resource type="Script" path="res://scripts/champion/annie/Annie.gd" id="1_annie"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_an"]
+radius = 20.0
+
+[node name="Annie" type="CharacterBody2D"]
+script = ExtResource("1_annie")
+collision_layer = 1
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_an")
+
+[node name="Sprite2D" type="ColorRect" parent="."]
+offset_left = -13.0
+offset_top = -13.0
+offset_right = 13.0
+offset_bottom = 13.0
+color = Color(1.0, 0.4, 0.1)
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 4.0
+target_desired_distance = 4.0
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -30.0
+offset_top = -50.0
+offset_right = 30.0
+offset_bottom = -42.0
+min_value = 0.0
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="NameLabel" type="Label" parent="."]
+offset_left = -40.0
+offset_top = -65.0
+offset_right = 40.0
+offset_bottom = -52.0
+horizontal_alignment = 1
+text = "Annie"
+theme_override_font_sizes/font_size = 10
