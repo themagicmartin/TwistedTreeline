@@ -140,7 +140,7 @@ func send_ability_cast(champion_name: String, slot: int, target_x: float, target
 	var sender := multiplayer.get_remote_sender_id()
 	for champ in get_tree().get_nodes_in_group("all_champions"):
 		if champ.player_id == sender and champ.champion_name == champion_name:
-			var ability := champ._get_ability_by_slot(slot)
+			var ability: Node = champ._get_ability_by_slot(slot)
 			if ability:
 				ability.try_cast(Vector2(target_x, target_y))
 			rpc("_broadcast_ability", champion_name, sender, slot, target_x, target_y)
@@ -151,7 +151,7 @@ func send_ability_cast(champion_name: String, slot: int, target_x: float, target
 func _broadcast_ability(champion_name: String, peer_id: int, slot: int, target_x: float, target_y: float) -> void:
 	for champ in get_tree().get_nodes_in_group("all_champions"):
 		if champ.player_id == peer_id and champ.champion_name == champion_name and not champ.is_local_player:
-			var ability := champ._get_ability_by_slot(slot)
+			var ability: Node = champ._get_ability_by_slot(slot)
 			if ability:
 				ability.try_cast(Vector2(target_x, target_y))
 			break

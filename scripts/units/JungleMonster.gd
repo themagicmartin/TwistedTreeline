@@ -42,7 +42,7 @@ func _ready() -> void:
 	add_to_group("jungle_monsters")
 	spawn_position = global_position
 
-	var stats := STATS.get(monster_type, STATS["golem"])
+	var stats: Dictionary = STATS.get(monster_type, STATS["golem"])
 	max_hp       = stats["hp"]
 	current_hp   = max_hp
 	attack_damage = stats["ad"]
@@ -100,9 +100,9 @@ func _return_to_spawn(delta: float) -> void:
 	move_and_slide()
 
 
-func _find_nearest_champion(range: float) -> Node:
+func _find_nearest_champion(search_range: float) -> Node:
 	var best: Node = null
-	var best_dist := range
+	var best_dist := search_range
 	for champ in get_tree().get_nodes_in_group("all_champions"):
 		if not is_instance_valid(champ):
 			continue

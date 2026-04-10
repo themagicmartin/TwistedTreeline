@@ -34,13 +34,13 @@ func spawn_wave(wave_number: int, is_cannon: bool) -> void:
 		_spawn_lane_wave(GameManager.Team.RED,  lane, wave_number, is_cannon)
 
 
-func _spawn_lane_wave(team: int, lane: String, wave_number: int, is_cannon: bool) -> void:
-	var waypoints := _get_waypoints(team, lane)
+func _spawn_lane_wave(team: int, lane: String, _wave_number: int, is_cannon: bool) -> void:
+	var waypoints: Array = _get_waypoints(team, lane)
 	if waypoints.is_empty():
 		return
 
 	var spawn_pos: Vector2 = waypoints[0]
-	var super_active := _super_minion_lanes.get(team, {}).get(lane, false)
+	var super_active: bool = _super_minion_lanes.get(team, {}).get(lane, false)
 
 	if super_active:
 		_spawn_minion(team, lane, "super", spawn_pos, waypoints)

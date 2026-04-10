@@ -18,7 +18,7 @@ enum CastType {
 @export var base_damage: float = 0.0
 @export var ap_ratio: float = 0.0
 @export var ad_ratio: float = 0.0
-@export var range: float = 600.0
+@export var cast_range: float = 600.0
 @export var rank: int = 0           # 0 = not learned, 1–5 (or 1–3 for R)
 @export var max_rank: int = 5
 

@@ -10,9 +10,9 @@ func _ready() -> void:
 	cast_type      = CastType.TARGETED
 	cooldown_base  = 4.0
 	mana_cost_base = 60.0
-	range          = 625.0
+	cast_range     = 625.0
 	max_rank       = 5
-	super()._ready()
+	super()
 
 
 func cast(target = null) -> void:
@@ -23,7 +23,7 @@ func cast(target = null) -> void:
 	if owner_champion.has_method("increment_stun_counter"):
 		will_stun = owner_champion.increment_stun_counter()
 
-	var dmg := BASE_DMG[rank] + owner_champion.ability_power * AP_RATIO
+	var dmg: float = (BASE_DMG[rank] as float) + (owner_champion.ability_power as float) * AP_RATIO
 
 	CombatSystem.deal_damage(owner_champion, target, dmg, CombatSystem.DamageType.MAGIC, true)
 

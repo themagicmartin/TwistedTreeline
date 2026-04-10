@@ -14,9 +14,9 @@ func _ready() -> void:
 	cast_type      = CastType.TARGETED
 	cooldown_base  = 120.0
 	mana_cost_base = 0.0
-	range          = 400.0
+	cast_range     = 400.0
 	max_rank       = 3
-	super()._ready()
+	super()
 
 
 func _is_non_interruptible() -> bool:
@@ -35,8 +35,8 @@ func cast(target = null) -> void:
 		return
 
 	# Calculate damage
-	var missing_hp := target.max_hp - target.current_hp
-	var total_dmg := BASE_DMG[rank] + missing_hp * MISSING_HP_RATIO
+	var missing_hp: float = (target.max_hp as float) - (target.current_hp as float)
+	var total_dmg: float = (BASE_DMG[rank] as float) + missing_hp * MISSING_HP_RATIO
 
 	# Small delay for dramatic effect, then deal damage
 	await get_tree().create_timer(0.5).timeout

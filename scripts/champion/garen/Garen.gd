@@ -21,7 +21,7 @@ func _ready() -> void:
 	base_attack_range = 175.0
 	gold_value       = 300.0
 	xp_value         = 220.0
-	super()._ready()
+	super()
 
 
 func _setup_abilities() -> void:

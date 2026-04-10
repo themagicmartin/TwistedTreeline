@@ -38,8 +38,8 @@ func _process(delta: float) -> void:
 			is_sealed = false
 		return
 
-	var blue_count := _units_on_altar[GameManager.Team.BLUE].size()
-	var red_count  := _units_on_altar[GameManager.Team.RED].size()
+	var blue_count: int = (_units_on_altar[GameManager.Team.BLUE] as Array).size()
+	var red_count: int  = (_units_on_altar[GameManager.Team.RED] as Array).size()
 
 	if blue_count > 0 and red_count > 0:
 		# Contested — no progress

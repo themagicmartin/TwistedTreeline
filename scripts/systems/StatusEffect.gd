@@ -52,34 +52,34 @@ func is_type(t: Type) -> bool:
 
 # --- Static helpers to create common effects ---
 
-static func make_slow(target: Node, dur: float, amount: float) -> "StatusEffect":
+static func make_slow(target: Node, dur: float, amount: float) -> StatusEffect:
 	return _make(target, Type.SLOW, dur, amount)
 
-static func make_silence(target: Node, dur: float) -> "StatusEffect":
+static func make_silence(target: Node, dur: float) -> StatusEffect:
 	return _make(target, Type.SILENCE, dur, 0.0)
 
-static func make_stun(target: Node, dur: float) -> "StatusEffect":
+static func make_stun(target: Node, dur: float) -> StatusEffect:
 	return _make(target, Type.STUN, dur, 0.0)
 
-static func make_knockup(target: Node, dur: float) -> "StatusEffect":
+static func make_knockup(target: Node, dur: float) -> StatusEffect:
 	return _make(target, Type.KNOCKUP, dur, 0.0)
 
-static func make_knockback(target: Node, dur: float, direction: Vector2, force: float) -> "StatusEffect":
+static func make_knockback(target: Node, dur: float, direction: Vector2, force: float) -> StatusEffect:
 	var fx := _make(target, Type.KNOCKBACK, dur, force)
 	fx.knockback_direction = direction
 	return fx
 
-static func make_ghosted(target: Node, dur: float) -> "StatusEffect":
+static func make_ghosted(target: Node, dur: float) -> StatusEffect:
 	return _make(target, Type.GHOSTED, dur, 0.0)
 
-static func make_speed_boost(target: Node, dur: float, amount: float) -> "StatusEffect":
+static func make_speed_boost(target: Node, dur: float, amount: float) -> StatusEffect:
 	return _make(target, Type.SPEED_BOOST, dur, amount)
 
-static func make_vilemaw_buff(target: Node) -> "StatusEffect":
+static func make_vilemaw_buff(target: Node) -> StatusEffect:
 	return _make(target, Type.VILEMAW_BUFF, 180.0, 0.0)
 
-static func _make(target: Node, t: Type, dur: float, mag: float) -> "StatusEffect":
-	var fx := load("res://scripts/systems/StatusEffect.gd").new()
+static func _make(target: Node, t: Type, dur: float, mag: float) -> StatusEffect:
+	var fx := StatusEffect.new()
 	fx.effect_type = t
 	fx.duration = dur
 	fx.magnitude = mag

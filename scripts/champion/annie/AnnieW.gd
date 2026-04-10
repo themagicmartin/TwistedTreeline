@@ -12,9 +12,9 @@ func _ready() -> void:
 	cast_type      = CastType.AOE
 	cooldown_base  = 8.0
 	mana_cost_base = 70.0
-	range          = CONE_RANGE
+	cast_range     = CONE_RANGE
 	max_rank       = 5
-	super()._ready()
+	super()
 
 
 func cast(target = null) -> void:
@@ -25,7 +25,7 @@ func cast(target = null) -> void:
 	if c.has_method("increment_stun_counter"):
 		will_stun = c.increment_stun_counter()
 
-	var dmg := BASE_DMG[rank] + c.ability_power * AP_RATIO
+	var dmg: float = (BASE_DMG[rank] as float) + (c.ability_power as float) * AP_RATIO
 	var aim: Vector2
 	if target is Vector2:
 		aim = c.global_position.direction_to(target)

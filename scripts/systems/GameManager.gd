@@ -142,8 +142,8 @@ func notify_nexus_destroyed(destroyed_team: int) -> void:
 
 
 func get_game_time_string() -> String:
-	var minutes := int(game_time) / 60
-	var seconds := int(game_time) % 60
+	var minutes: int = int(game_time / 60.0)
+	var seconds: int = int(game_time) % 60
 	return "%02d:%02d" % [minutes, seconds]
 
 

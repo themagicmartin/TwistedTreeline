@@ -175,7 +175,7 @@ func _spawn_fountains() -> void:
 
 
 func _build_navigation() -> void:
-	var region := get_node_or_null(nav_region)
+	var region: NavigationRegion2D = get_node_or_null(nav_region)
 	if region == null:
 		push_error("MapSetup: NavigationRegion2D not found at '%s'" % nav_region)
 		return
@@ -186,23 +186,23 @@ func _build_navigation() -> void:
 	# We use a simple union: one big outer polygon minus nothing (open map).
 	# For MVP, the entire 3200x2000 area is walkable (walls are visual only).
 
-	var nav_poly := NavigationPolygon.new()
+	var nav_poly: NavigationPolygon = NavigationPolygon.new()
 
-	# Outer walkable boundary (full map)
-	var outline := PackedVector2Array([
+	# Outer walkable boundary (full map) — entire 3200x2000 area is walkable for MVP.
+	# Directly set vertices + polygon indices to avoid the deprecated make_polygons_from_outlines().
+	nav_poly.vertices = PackedVector2Array([
 		Vector2(0,    0),
 		Vector2(3200, 0),
 		Vector2(3200, 2000),
 		Vector2(0,    2000),
 	])
-	nav_poly.add_outline(outline)
-	nav_poly.make_polygons_from_outlines()
+	nav_poly.add_polygon(PackedInt32Array([0, 1, 2, 3]))
 
 	region.navigation_polygon = nav_poly
 
 
 func _setup_wave_manager() -> void:
-	var wm := get_node_or_null("WaveManager")
+	var wm: WaveManager = get_node_or_null("WaveManager")
 	if wm == null:
 		return
 	wm.blue_top_waypoints = [

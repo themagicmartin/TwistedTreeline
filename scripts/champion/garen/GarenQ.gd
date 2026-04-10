@@ -14,9 +14,9 @@ func _ready() -> void:
 	cast_type    = CastType.TARGETED
 	cooldown_base = 8.0
 	mana_cost_base = 0.0  # Garen has no mana
-	range        = 175.0  # melee range
+	cast_range   = 175.0  # melee range
 	max_rank     = 5
-	super()._ready()
+	super()
 
 
 func get_cooldown() -> float:
@@ -57,6 +57,6 @@ class _BonusAutoNode extends Node:
 
 	func _on_hit(target: Node, _base_dmg: float) -> void:
 		# Deal extra damage equal to (ratio - 1) * AD
-		var extra := get_parent().attack_damage * (ratio - 1.0)
+		var extra: float = (get_parent().attack_damage as float) * (ratio - 1.0)
 		CombatSystem.deal_damage(get_parent(), target, extra, CombatSystem.DamageType.PHYSICAL, false)
 		queue_free()

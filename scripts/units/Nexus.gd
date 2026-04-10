@@ -20,7 +20,7 @@ func _ready() -> void:
 		add_to_group("enemy_units_" + str(GameManager.Team.BLUE))
 
 	# Regenerate 15 HP/sec
-	var regen := get_tree().create_timer(1.0)
+	var regen: SceneTreeTimer = get_tree().create_timer(1.0)
 	regen.timeout.connect(_regen_hp)
 
 

@@ -13,7 +13,7 @@ func _ready() -> void:
 	cooldown_base  = 10.0
 	mana_cost_base = 20.0
 	max_rank       = 5
-	super()._ready()
+	super()
 
 
 func cast(_target = null) -> void:
@@ -23,9 +23,9 @@ func cast(_target = null) -> void:
 	if c.has_method("increment_stun_counter"):
 		c.increment_stun_counter()
 
-	var shield_hp := SHIELD_AMOUNT[rank] + c.ability_power * AP_RATIO
-	var reflect   := REFLECT_DMG[rank]
-	var dur       := DURATION[rank]
+	var shield_hp: float = (SHIELD_AMOUNT[rank] as float) + (c.ability_power as float) * AP_RATIO
+	var reflect: float   = REFLECT_DMG[rank]
+	var dur: float       = DURATION[rank]
 
 	var shield := _MoltenShield.new()
 	shield.shield_remaining = shield_hp

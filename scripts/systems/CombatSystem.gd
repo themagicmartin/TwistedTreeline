@@ -25,7 +25,7 @@ static func deal_damage(
 	target: Node,
 	amount: float,
 	dtype: DamageType,
-	is_ability: bool = false
+	_is_ability: bool = false
 ) -> float:
 	if not target.has_method("take_damage"):
 		return 0.0
@@ -49,8 +49,8 @@ static func deal_damage(
 static func basic_attack(source: Node, target: Node) -> float:
 	if not is_instance_valid(target):
 		return 0.0
-	var raw := source.attack_damage
-	var dmg := deal_damage(source, target, raw, DamageType.PHYSICAL, false)
+	var raw: float = source.attack_damage
+	var dmg: float = deal_damage(source, target, raw, DamageType.PHYSICAL, false)
 	# Trigger on-hit effects
 	if source.has_signal("on_basic_attack_hit"):
 		source.emit_signal("on_basic_attack_hit", target, dmg)

@@ -40,14 +40,14 @@ func _refresh_all() -> void:
 
 
 func _on_hp_changed(current: float, maximum: float) -> void:
-	var bar := %HPBar
+	var bar: ProgressBar = %HPBar
 	bar.max_value = maximum
 	bar.value = current
 	%HPLabel.text = "%d / %d" % [int(current), int(maximum)]
 
 
 func _on_mana_changed(current: float, maximum: float) -> void:
-	var bar := %ManaBar
+	var bar: ProgressBar = %ManaBar
 	bar.max_value = maximum
 	bar.value = current
 	%ManaLabel.text = "%d / %d" % [int(current), int(maximum)]
@@ -86,14 +86,14 @@ func _set_ability_cd(label: Label, ability: AbilitySystem) -> void:
 func _update_gold() -> void:
 	if local_champion == null:
 		return
-	var gold := EconomyManager.get_gold(local_champion.player_id)
+	var gold: float = EconomyManager.get_gold(local_champion.player_id)
 	%GoldLabel.text = "Gold: %d" % int(gold)
 
 
 func _update_level() -> void:
 	if local_champion == null:
 		return
-	var lvl := EconomyManager.get_level(local_champion.player_id)
+	var lvl: int = EconomyManager.get_level(local_champion.player_id)
 	%LevelLabel.text = "Lv: %d" % lvl
 
 
@@ -110,7 +110,7 @@ func _on_vilemaw_killed(_team: int) -> void:
 
 
 func _update_vilemaw_timer() -> void:
-	var t := GameManager.vilemaw_spawn_timer
+	var t: float = GameManager.vilemaw_spawn_timer
 	if GameManager.vilemaw_alive:
 		%VilemawPanel.visible = false
 		return
@@ -122,6 +122,6 @@ func _update_vilemaw_timer() -> void:
 
 
 func _fmt_time(t: float) -> String:
-	var m := int(t) / 60
-	var s := int(t) % 60
+	var m: int = int(t / 60.0)
+	var s: int = int(t) % 60
 	return "%02d:%02d" % [m, s]

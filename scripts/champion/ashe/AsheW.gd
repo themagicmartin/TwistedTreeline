@@ -14,8 +14,8 @@ func _ready() -> void:
 	cooldown_base  = 14.0
 	mana_cost_base = 50.0
 	max_rank       = 5
-	range          = 1200.0
-	super()._ready()
+	cast_range     = 1200.0
+	super()
 
 
 func get_cooldown() -> float:
@@ -46,7 +46,7 @@ func _spawn_slowing_arrow(origin: Vector2, direction: Vector2) -> void:
 	arrow.slow = SLOW_AMOUNT[rank]
 	arrow.slow_dur = SLOW_DURATION
 	arrow.source = owner_champion
-	arrow.max_range = range
+	arrow.max_range = cast_range
 	owner_champion.get_parent().add_child(arrow)
 
 

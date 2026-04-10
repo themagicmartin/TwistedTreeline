@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128">
+  <rect width="128" height="128" rx="16" fill="#1a1a2e"/>
+  <text x="64" y="85" font-size="56" font-family="sans-serif" font-weight="bold"
+        text-anchor="middle" fill="#4fc3f7">TT</text>
+</svg>

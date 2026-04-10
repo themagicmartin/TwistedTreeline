@@ -15,9 +15,9 @@ func _ready() -> void:
 	cast_type      = CastType.POINT_CLICK
 	cooldown_base  = 130.0
 	mana_cost_base = 100.0
-	range          = 600.0
+	cast_range     = 600.0
 	max_rank       = 3
-	super()._ready()
+	super()
 
 
 func _is_non_interruptible() -> bool:
@@ -39,7 +39,7 @@ func cast(target = null) -> void:
 		spawn_pos = owner_champion.global_position
 
 	# Initial AOE burst at cast location
-	var dmg := BASE_DMG[rank] + owner_champion.ability_power * AP_RATIO
+	var dmg: float = (BASE_DMG[rank] as float) + (owner_champion.ability_power as float) * AP_RATIO
 	for unit in owner_champion.get_tree().get_nodes_in_group("all_units"):
 		if not CombatSystem.is_enemy(owner_champion, unit):
 			continue

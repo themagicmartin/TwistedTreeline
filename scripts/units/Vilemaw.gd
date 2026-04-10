@@ -90,9 +90,9 @@ func _return_to_spawn(delta: float) -> void:
 	move_and_slide()
 
 
-func _find_nearest_champion(range: float) -> Node:
+func _find_nearest_champion(search_range: float) -> Node:
 	var best: Node = null
-	var best_dist := range
+	var best_dist := search_range
 	for champ in get_tree().get_nodes_in_group("all_champions"):
 		if not is_instance_valid(champ) or champ.is_dead:
 			continue
@@ -126,6 +126,6 @@ func _die(source: Node) -> void:
 	visible = false
 
 	# Award buff to the team that dealt the killing blow
-	var killing_team := source.team if (source and "team" in source) else GameManager.Team.NONE
+	var killing_team: int = source.team if (source and "team" in source) else GameManager.Team.NONE
 	if killing_team != GameManager.Team.NONE:
 		GameManager.notify_vilemaw_killed(killing_team)

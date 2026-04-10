@@ -43,7 +43,7 @@ func _ready() -> void:
 	else:
 		add_to_group("enemy_units_" + str(GameManager.Team.BLUE))
 
-	var stats := TOWER_STATS.get(tower_type, TOWER_STATS["outer"])
+	var stats: Dictionary = TOWER_STATS.get(tower_type, TOWER_STATS["outer"])
 	max_hp       = stats["hp"]
 	current_hp   = max_hp
 	attack_damage = stats["dmg"]

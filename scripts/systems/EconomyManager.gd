@@ -70,7 +70,7 @@ func add_xp(player_id: int, amount: float) -> void:
 
 
 func _check_level_up(player_id: int) -> void:
-	var level := player_level[player_id]
+	var level: int = player_level[player_id]
 	while level < 18:
 		var xp_needed: float = XP_PER_LEVEL[level]
 		if player_xp[player_id] >= xp_needed:
@@ -91,7 +91,7 @@ func get_xp(player_id: int) -> float:
 
 
 func get_xp_to_next(player_id: int) -> float:
-	var level := player_level.get(player_id, 1)
+	var level: int = player_level.get(player_id, 1)
 	if level >= 18:
 		return 0.0
 	return XP_PER_LEVEL[level]

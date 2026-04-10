@@ -16,7 +16,7 @@ func _ready() -> void:
 	cooldown_base  = 0.0  # no cooldown, passive-based
 	mana_cost_base = 50.0
 	max_rank       = 5
-	super()._ready()
+	super()
 	if owner_champion:
 		owner_champion.on_basic_attack_hit.connect(_on_basic_attack)
 

@@ -54,7 +54,7 @@ func _ready() -> void:
 	else:
 		add_to_group("enemy_units_" + str(GameManager.Team.BLUE))
 
-	var stats := STATS.get(minion_type, STATS["melee"])
+	var stats: Dictionary = STATS.get(minion_type, STATS["melee"])
 	max_hp       = stats["hp"]
 	current_hp   = max_hp
 	attack_damage = stats["ad"]
@@ -105,11 +105,11 @@ func _act(delta: float) -> void:
 				_attack()
 
 
-func _march(delta: float) -> void:
+func _march(_delta: float) -> void:
 	if waypoints.is_empty():
 		velocity = Vector2.ZERO
 		return
-	var target_wp := waypoints[mini(_waypoint_index, waypoints.size() - 1)]
+	var target_wp: Vector2 = waypoints[mini(_waypoint_index, waypoints.size() - 1)]
 	nav_agent.target_position = target_wp
 	if global_position.distance_to(target_wp) < 20.0:
 		_waypoint_index = mini(_waypoint_index + 1, waypoints.size() - 1)
@@ -128,9 +128,9 @@ func _attack() -> void:
 	CombatSystem.deal_damage(self, _attack_target, attack_damage, CombatSystem.DamageType.PHYSICAL)
 
 
-func _find_nearest_enemy(range: float) -> Node:
+func _find_nearest_enemy(search_range: float) -> Node:
 	var best: Node = null
-	var best_dist := range
+	var best_dist := search_range
 	for unit in get_tree().get_nodes_in_group("all_units"):
 		if not is_instance_valid(unit):
 			continue
@@ -147,9 +147,9 @@ func _find_nearest_enemy(range: float) -> Node:
 	return best
 
 
-func _find_nearest_enemy_building(range: float) -> Node:
+func _find_nearest_enemy_building(search_range: float) -> Node:
 	var best: Node = null
-	var best_dist := range
+	var best_dist := search_range
 	for building in get_tree().get_nodes_in_group("towers"):
 		if not is_instance_valid(building):
 			continue
@@ -177,14 +177,13 @@ func _die(killer: Node) -> void:
 		EconomyManager.add_gold(killer.player_id, gold_value)
 		EconomyManager.add_xp(killer.player_id, xp_value)
 	# Award XP to nearby allied champions
-	var killer_team := killer.team if (killer and "team" in killer) else 0
+	var killer_team: int = killer.team if (killer and "team" in killer) else 0
 	for champ in get_tree().get_nodes_in_group("champions_team_" + str(killer_team)):
 		if champ == killer:
 			continue
 		if champ.global_position.distance_to(global_position) < 1200.0:
 			EconomyManager.add_xp(champ.player_id, xp_value * 0.5)
 
-	get_tree().call_group("jungle_camps", "notify_monster_died", self) if false else null
 	queue_free()
 
 

@@ -16,8 +16,8 @@ func _ready() -> void:
 	cooldown_base  = 100.0
 	mana_cost_base = 100.0
 	max_rank       = 3
-	range          = MAX_RANGE
-	super()._ready()
+	cast_range     = MAX_RANGE
+	super()
 
 
 func get_cooldown() -> float:

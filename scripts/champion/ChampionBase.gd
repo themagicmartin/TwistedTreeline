@@ -4,12 +4,12 @@ class_name ChampionBase
 # Handles: movement (click-to-move), basic attacks, stats, level scaling,
 # status effect reception, death/respawn, team buff integration.
 
-class_name ChampionBase
-
 # --- Signals ---
 signal died(champion: ChampionBase)
 signal health_changed(current: float, maximum: float)
+@warning_ignore("unused_signal")
 signal mana_changed(current: float, maximum: float)
+@warning_ignore("unused_signal")
 signal on_basic_attack_hit(target: Node, damage: float)
 
 # --- Team & Identity ---
@@ -56,13 +56,11 @@ var level: int = 1
 const RESPAWN_BASE := 6.0
 const RESPAWN_PER_LEVEL := 2.5
 var is_dead: bool = false
-var _respawn_timer: float = 0.0
 
 # --- Basic Attack ---
 var _attack_target: Node = null
 var _attack_cooldown: float = 0.0
 var _is_attack_moving: bool = false
-var _attack_windup: float = 0.0  # seconds into current attack animation
 
 # --- Damage reduction (Garen W, etc.) ---
 var active_damage_reduction: float = 0.0  # 0.0–1.0 fraction
@@ -179,32 +177,31 @@ func _input(event: InputEvent) -> void:
 func set_move_target(pos: Vector2) -> void:
 	_move_target = pos
 	_is_moving = true
-	nav_agent.target_position = pos
 
 
-func _handle_movement(delta: float) -> void:
+func _handle_movement(_delta: float) -> void:
 	if not _is_moving:
 		velocity = Vector2.ZERO
 		return
 
-	# If attacking a target, move toward it until in range
+	# Determine target position: chase attack target or move to clicked point
+	var target := _move_target
 	if _attack_target and is_instance_valid(_attack_target):
 		var dist := global_position.distance_to(_attack_target.global_position)
 		if dist <= attack_range:
 			velocity = Vector2.ZERO
 			_is_moving = false
 			return
-		nav_agent.target_position = _attack_target.global_position
+		target = _attack_target.global_position
 
-	if nav_agent.is_navigation_finished():
+	var dist_to_target := global_position.distance_to(target)
+	if dist_to_target < 8.0:
 		velocity = Vector2.ZERO
 		_is_moving = false
 		return
 
-	var next_pos := nav_agent.get_next_path_position()
-	var direction := global_position.direction_to(next_pos)
-	var spd := _effective_move_speed()
-	velocity = direction * spd
+	# Direct movement — entire map is walkable for MVP so no nav mesh needed
+	velocity = global_position.direction_to(target) * _effective_move_speed()
 
 
 func _effective_move_speed() -> float:
@@ -343,7 +340,7 @@ func _die(killer: Node) -> void:
 		EconomyManager.add_xp(killer.player_id, xp_value)
 
 	# Assists: team members who dealt damage recently (simplified: all nearby teammates)
-	var killer_team := killer.team if (killer and "team" in killer) else 0
+	var killer_team: int = killer.team if (killer and "team" in killer) else 0
 	for ally in get_tree().get_nodes_in_group("champions_team_" + str(killer_team)):
 		if ally == killer:
 			continue
