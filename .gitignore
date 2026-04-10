@@ -1,0 +1,12 @@
+# Godot editor/cache — not needed in repo
+.godot/
+
+# macOS
+.DS_Store
+
+# Export artifacts
+*.zip
+*.exe
+*.x86_64
+*.app
+export_presets.cfg
