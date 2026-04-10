@@ -67,7 +67,7 @@ func _physics_process(delta: float) -> void:
 		return
 
 	# Aggro
-	if _attack_target == null or not is_instance_valid(_attack_target) or _attack_target.is_dead if _attack_target and _attack_target.has_variable("is_dead") else false:
+	if _attack_target == null or not is_instance_valid(_attack_target) or ("is_dead" in _attack_target and _attack_target.is_dead):
 		_attack_target = _find_nearest_champion(AGGRO_RANGE)
 
 	if _attack_target and is_instance_valid(_attack_target):
@@ -106,7 +106,7 @@ func _find_nearest_champion(range: float) -> Node:
 	for champ in get_tree().get_nodes_in_group("all_champions"):
 		if not is_instance_valid(champ):
 			continue
-		if champ.has_variable("is_dead") and champ.is_dead:
+		if "is_dead" in champ and champ.is_dead:
 			continue
 		var d := global_position.distance_to(champ.global_position)
 		if d < best_dist:
@@ -134,7 +134,7 @@ func take_damage(amount: float, source: Node, _dtype: int) -> void:
 
 func _die(killer: Node) -> void:
 	is_dead = true
-	if killer and killer.has_variable("player_id"):
+	if killer and "player_id" in killer:
 		EconomyManager.add_gold(killer.player_id, gold_value)
 		EconomyManager.add_xp(killer.player_id, xp_value)
 	if camp and camp.has_method("notify_monster_died"):

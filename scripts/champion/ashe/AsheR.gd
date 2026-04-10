@@ -55,7 +55,7 @@ class _CrystalArrow extends Node2D:
 			queue_free()
 			return
 		for unit in get_tree().get_nodes_in_group("all_units"):
-			if not unit.has_variable("team"):
+			if not "team" in unit:
 				continue
 			if not CombatSystem.is_enemy(source, unit):
 				continue

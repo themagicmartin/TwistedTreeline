@@ -20,7 +20,7 @@ func cast(_target = null) -> void:
 	var c := owner_champion
 	if c == null:
 		return
-	if c is Annie:
+	if c.has_method("increment_stun_counter"):
 		c.increment_stun_counter()
 
 	var shield_hp := SHIELD_AMOUNT[rank] + c.ability_power * AP_RATIO

@@ -29,7 +29,7 @@ func get_cooldown() -> float:
 
 
 func cast(target = null) -> void:
-	if owner_champion is Annie:
+	if owner_champion.has_method("increment_stun_counter"):
 		owner_champion.increment_stun_counter()
 
 	var spawn_pos: Vector2
@@ -46,7 +46,7 @@ func cast(target = null) -> void:
 		if spawn_pos.distance_to(unit.global_position) <= TIBBERS_AOE:
 			CombatSystem.deal_damage(owner_champion, unit, dmg, CombatSystem.DamageType.MAGIC, true)
 			# Stun if passive proc active
-			if owner_champion is Annie and owner_champion.stun_counter == 0:
+			if owner_champion.has_method("increment_stun_counter") and owner_champion.stun_counter == 0:
 				StatusEffect.make_stun(unit, 1.75)
 
 	# Spawn Tibbers

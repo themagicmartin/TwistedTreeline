@@ -1,4 +1,5 @@
 extends ChampionBase
+class_name Garen
 # Garen — Fighter
 # Q: Decisive Strike (silence + damage)
 # W: Courage (passive armor boost + active damage reduction shield)

@@ -29,11 +29,11 @@ func _on_body_entered(body: Node) -> void:
 	if not body.has_method("heal"):
 		return
 	# Only champions can pick up health packs
-	if not body.has_variable("team"):
+	if not "team" in body:
 		return
 
 	body.heal(body.max_hp * HEAL_PERCENT)
-	if body.has_variable("current_mana"):
+	if "current_mana" in body:
 		body.current_mana = minf(body.current_mana + body.max_mana * MANA_PERCENT, body.max_mana)
 	StatusEffect.make_speed_boost(body, 2.0, SPEED_BOOST)
 

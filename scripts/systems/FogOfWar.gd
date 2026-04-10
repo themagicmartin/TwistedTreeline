@@ -43,9 +43,9 @@ func _update_visibility() -> void:
 	for node in _vision_nodes:
 		if not is_instance_valid(node):
 			continue
-		if not node.has_variable("team") or node.team != local_team:
+		if not "team" in node or node.team != local_team:
 			continue
-		var radius: float = node.vision_radius if node.has_variable("vision_radius") else 900.0
+		var radius: float = node.vision_radius if "vision_radius" in node else 900.0
 		vision_circles.append({"pos": node.global_position, "radius": radius})
 
 	# Show/hide enemy units based on vision

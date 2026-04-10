@@ -60,7 +60,7 @@ func _physics_process(delta: float) -> void:
 		return
 
 	if _attack_target == null or not is_instance_valid(_attack_target):
-		if _attack_target != null and _attack_target.has_variable("is_dead") and _attack_target.is_dead:
+		if _attack_target != null and "is_dead" in _attack_target and _attack_target.is_dead:
 			_attack_target = null
 		_attack_target = _find_nearest_champion(AGGRO_RANGE)
 
@@ -115,7 +115,7 @@ func take_damage(amount: float, source: Node, _dtype: int) -> void:
 		return
 	current_hp -= amount
 	# Track damage per team
-	if source and source.has_variable("team") and source.team in _damage_dealt:
+	if source and "team" in source and source.team in _damage_dealt:
 		_damage_dealt[source.team] += amount
 	if current_hp <= 0.0:
 		_die(source)
@@ -126,6 +126,6 @@ func _die(source: Node) -> void:
 	visible = false
 
 	# Award buff to the team that dealt the killing blow
-	var killing_team := source.team if source and source.has_variable("team") else GameManager.Team.NONE
+	var killing_team := source.team if (source and "team" in source) else GameManager.Team.NONE
 	if killing_team != GameManager.Team.NONE:
 		GameManager.notify_vilemaw_killed(killing_team)

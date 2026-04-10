@@ -80,7 +80,7 @@ func _complete_capture(team: int) -> void:
 
 
 func _on_body_entered(body: Node) -> void:
-	if body.has_variable("team"):
+	if "team" in body:
 		var t: int = body.team
 		if t in _units_on_altar and body not in _units_on_altar[t]:
 			_units_on_altar[t].append(body)

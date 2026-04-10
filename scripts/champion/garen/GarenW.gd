@@ -67,6 +67,6 @@ class _CourageShield extends Node:
 	func _process(delta: float) -> void:
 		_elapsed += delta
 		if _elapsed >= duration:
-			if get_parent().has_variable("active_damage_reduction"):
+			if "active_damage_reduction" in get_parent():
 				get_parent().active_damage_reduction = 0.0
 			queue_free()

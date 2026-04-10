@@ -62,7 +62,7 @@ func _process(delta: float) -> void:
 
 func _find_target() -> void:
 	# Prefer champion being attacked by this tower's team minions, else nearest enemy champion, else minions
-	if _attack_target and is_instance_valid(_attack_target) and not _attack_target.is_dead if _attack_target.has_variable("is_dead") else true:
+	if _attack_target and is_instance_valid(_attack_target) and not ("is_dead" in _attack_target and _attack_target.is_dead):
 		if global_position.distance_to(_attack_target.global_position) <= attack_range + 50.0:
 			return
 
@@ -73,11 +73,11 @@ func _find_target() -> void:
 	for unit in get_tree().get_nodes_in_group("all_units"):
 		if not is_instance_valid(unit):
 			continue
-		if not unit.has_variable("team"):
+		if not "team" in unit:
 			continue
 		if unit.team == team or unit.team == GameManager.Team.NONE:
 			continue
-		if unit.has_variable("is_dead") and unit.is_dead:
+		if "is_dead" in unit and unit.is_dead:
 			continue
 		var dist := global_position.distance_to(unit.global_position)
 		if dist > attack_range:
@@ -95,7 +95,7 @@ func _find_target() -> void:
 func _get_target_priority(unit: Node) -> int:
 	if unit.has_method("_setup_abilities"):  # is a champion
 		return 2
-	if unit.has_variable("is_minion"):
+	if "is_minion" in unit:
 		return 1
 	return 0
 
@@ -124,7 +124,7 @@ func take_damage(amount: float, source: Node, _dtype: int) -> void:
 func _destroy(killer: Node) -> void:
 	current_hp = 0.0
 	# Award gold to killer's team
-	if killer and killer.has_variable("team"):
+	if killer and "team" in killer:
 		get_tree().call_group("champions_team_" + str(killer.team), "add_gold", gold_value / 3.0)
 
 	destroyed.emit(self)

@@ -21,8 +21,9 @@ func cast(target = null) -> void:
 	var c := owner_champion
 	if c == null:
 		return
-	var annie := c as Annie if c is Annie else null
-	var will_stun := annie.increment_stun_counter() if annie else false
+	var will_stun := false
+	if c.has_method("increment_stun_counter"):
+		will_stun = c.increment_stun_counter()
 
 	var dmg := BASE_DMG[rank] + c.ability_power * AP_RATIO
 	var aim: Vector2

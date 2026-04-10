@@ -134,15 +134,12 @@ func _find_nearest_enemy(range: float) -> Node:
 	for unit in get_tree().get_nodes_in_group("all_units"):
 		if not is_instance_valid(unit):
 			continue
-		if not unit.has_variable("team"):
+		if not "team" in unit:
 			continue
 		if unit.team == team or unit.team == GameManager.Team.NONE:
 			continue
-		if unit.has_variable("is_dead") and unit.is_dead:
+		if "is_dead" in unit and unit.is_dead:
 			continue
-		if unit.has_variable("is_minion"):  # only attack other minions if they're in the way
-			if not unit.has_variable("is_minion"):
-				continue
 		var d := global_position.distance_to(unit.global_position)
 		if d < best_dist:
 			best_dist = d
@@ -176,11 +173,11 @@ func take_damage(amount: float, source: Node, _dtype: int) -> void:
 func _die(killer: Node) -> void:
 	is_dead = true
 	# Award gold to killer (nearby champions)
-	if killer and killer.has_variable("player_id"):
+	if killer and "player_id" in killer:
 		EconomyManager.add_gold(killer.player_id, gold_value)
 		EconomyManager.add_xp(killer.player_id, xp_value)
 	# Award XP to nearby allied champions
-	var killer_team := killer.team if killer.has_variable("team") else 0
+	var killer_team := killer.team if (killer and "team" in killer) else 0
 	for champ in get_tree().get_nodes_in_group("champions_team_" + str(killer_team)):
 		if champ == killer:
 			continue

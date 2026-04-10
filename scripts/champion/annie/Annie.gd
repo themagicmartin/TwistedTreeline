@@ -1,4 +1,5 @@
 extends ChampionBase
+class_name Annie
 # Annie — Mage
 # Passive: Every 4th ability cast stuns the next target hit.
 # Q: Disintegrate (refund mana on kill)

@@ -1,4 +1,5 @@
 extends ChampionBase
+class_name Ashe
 # Ashe — Marksman
 # Q: Ranger's Focus (volley of arrows in cone)
 # W: Volley (cone of 7 arrows, all slow)

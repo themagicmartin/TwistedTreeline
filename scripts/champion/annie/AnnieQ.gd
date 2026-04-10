@@ -18,11 +18,12 @@ func _ready() -> void:
 func cast(target = null) -> void:
 	if not is_instance_valid(target):
 		return
-	var annie := owner_champion as Annie if owner_champion is Annie else null
-	var will_stun := annie.increment_stun_counter() if annie else false
+	# Use duck typing — Annie has increment_stun_counter()
+	var will_stun := false
+	if owner_champion.has_method("increment_stun_counter"):
+		will_stun = owner_champion.increment_stun_counter()
 
 	var dmg := BASE_DMG[rank] + owner_champion.ability_power * AP_RATIO
-	var pre_hp := target.current_hp if target.has_variable("current_hp") else 1.0
 
 	CombatSystem.deal_damage(owner_champion, target, dmg, CombatSystem.DamageType.MAGIC, true)
 
@@ -31,7 +32,7 @@ func cast(target = null) -> void:
 		StatusEffect.make_stun(target, 1.75)
 
 	# Refund mana if target died
-	if is_instance_valid(target) and target.has_variable("current_hp") and target.current_hp <= 0.0:
+	if is_instance_valid(target) and "current_hp" in target and target.current_hp <= 0.0:
 		owner_champion.current_mana = minf(
 			owner_champion.current_mana + get_mana_cost(),
 			owner_champion.max_mana

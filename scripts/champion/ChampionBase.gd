@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name ChampionBase
 # ChampionBase — base class for all 6 champions.
 # Handles: movement (click-to-move), basic attacks, stats, level scaling,
 # status effect reception, death/respawn, team buff integration.
@@ -62,6 +63,12 @@ var _attack_target: Node = null
 var _attack_cooldown: float = 0.0
 var _is_attack_moving: bool = false
 var _attack_windup: float = 0.0  # seconds into current attack animation
+
+# --- Damage reduction (Garen W, etc.) ---
+var active_damage_reduction: float = 0.0  # 0.0–1.0 fraction
+
+# --- Shields ---
+var _active_shields: Array = []
 
 # --- Movement ---
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
@@ -296,10 +303,28 @@ func _find_nearest_enemy_near(pos: Vector2, radius: float) -> Node:
 func take_damage(amount: float, source: Node, _dtype: int) -> void:
 	if is_dead:
 		return
-	current_hp -= amount
+	# Apply damage reduction (e.g. Garen W)
+	var mitigated := amount * (1.0 - clampf(active_damage_reduction, 0.0, 1.0))
+	# Let shields absorb first
+	for shield in _active_shields.duplicate():
+		if not is_instance_valid(shield):
+			_active_shields.erase(shield)
+			continue
+		mitigated = shield.absorb(mitigated, source)
+		if mitigated <= 0.0:
+			return
+	current_hp -= mitigated
 	health_changed.emit(current_hp, max_hp)
 	if current_hp <= 0.0:
 		_die(source)
+
+
+func register_shield(shield: Node) -> void:
+	_active_shields.append(shield)
+
+
+func unregister_shield(shield: Node) -> void:
+	_active_shields.erase(shield)
 
 
 func heal(amount: float) -> void:
