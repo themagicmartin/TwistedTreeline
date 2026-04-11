@@ -23,6 +23,11 @@ color = Color(0.3, 0.3, 0.9, 1)
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_desired_distance = 4.0
 target_desired_distance = 4.0
+avoidance_enabled = true
+radius = 18.0
+neighbor_distance = 120.0
+max_neighbors = 12
+time_horizon_agents = 1.0
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 offset_left = -15.0
