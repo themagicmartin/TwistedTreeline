@@ -12,7 +12,7 @@ script = ExtResource("1_main")
 [node name="Map" parent="." instance=ExtResource("2_map")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.6, 0.6)
+zoom = Vector2(1.0, 1.0)
 limit_left = 0
 limit_top = 0
 limit_right = 3200

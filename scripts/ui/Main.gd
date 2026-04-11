@@ -51,7 +51,7 @@ func _setup_camera() -> void:
 	camera.limit_top    = 0
 	camera.limit_right  = 3200
 	camera.limit_bottom = 2000
-	camera.zoom         = Vector2(0.6, 0.6)
+	camera.zoom         = Vector2(1.0, 1.0)
 
 
 func _connect_hud() -> void:
