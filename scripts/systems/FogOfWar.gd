@@ -48,9 +48,20 @@ func _update_visibility() -> void:
 		var radius: float = node.vision_radius if "vision_radius" in node else 900.0
 		vision_circles.append({"pos": node.global_position, "radius": radius})
 
+	# If no vision sources exist yet, reveal everything (avoids invisible-but-blocking issue)
+	if vision_circles.is_empty():
+		for unit in get_tree().get_nodes_in_group("enemy_units_" + str(local_team)):
+			if is_instance_valid(unit):
+				unit.visible = true
+		return
+
 	# Show/hide enemy units based on vision
 	for unit in get_tree().get_nodes_in_group("enemy_units_" + str(local_team)):
 		if not is_instance_valid(unit):
+			continue
+		# Towers and nexus are permanent structures — always visible once in game
+		if unit.is_in_group("towers") or unit.is_in_group("nexus_team_1") or unit.is_in_group("nexus_team_2"):
+			unit.visible = true
 			continue
 		var visible_to_team := _is_in_vision(unit.global_position, vision_circles)
 		unit.visible = visible_to_team

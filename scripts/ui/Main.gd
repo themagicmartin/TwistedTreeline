@@ -12,6 +12,7 @@ var local_champion: ChampionBase = null
 @onready var hud: CanvasLayer            = $HUD
 @onready var victory_screen: CanvasLayer = $VictoryScreen
 @onready var camera: Camera2D            = $Camera2D
+@onready var fog_of_war                  = $FogOfWar
 
 
 func _ready() -> void:
@@ -19,6 +20,7 @@ func _ready() -> void:
 	_spawn_champions()
 	_setup_camera()
 	_connect_hud()
+	_setup_fog_of_war()
 
 
 func _spawn_champions() -> void:
@@ -57,3 +59,12 @@ func _setup_camera() -> void:
 func _connect_hud() -> void:
 	if local_champion and hud.has_method("set_local_champion"):
 		hud.set_local_champion(local_champion)
+
+
+func _setup_fog_of_war() -> void:
+	if fog_of_war == null:
+		return
+	fog_of_war.local_team = GameManager.Team.BLUE
+	# Register local champion so fog-of-war has a vision source from frame 1
+	if local_champion and fog_of_war.has_method("register_vision_source"):
+		fog_of_war.register_vision_source(local_champion)
