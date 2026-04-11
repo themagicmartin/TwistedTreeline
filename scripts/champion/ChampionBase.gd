@@ -109,6 +109,15 @@ func _ready() -> void:
 	nav_agent.path_desired_distance = 4.0
 	nav_agent.target_desired_distance = 4.0
 
+	# Keep the in-world HealthBar (above the sprite) in sync with the HUD bar.
+	# Both listen to the same health_changed signal so they always match.
+	var world_hbar := get_node_or_null("HealthBar")
+	if world_hbar:
+		health_changed.connect(
+			func(cur: float, mx: float) -> void:
+				world_hbar.value = clampf((cur / mx) * 100.0, 0.0, 100.0)
+		)
+
 	_setup_abilities()
 
 
@@ -366,6 +375,8 @@ func _respawn() -> void:
 	current_hp = max_hp
 	current_mana = max_mana
 	visible = true
+	health_changed.emit(current_hp, max_hp)
+	mana_changed.emit(current_mana, max_mana)
 	# Teleport to fountain
 	var fountain_group := "fountain_team_" + str(team)
 	var fountains := get_tree().get_nodes_in_group(fountain_group)

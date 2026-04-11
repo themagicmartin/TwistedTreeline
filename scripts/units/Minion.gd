@@ -162,8 +162,26 @@ func _move_toward(target_pos: Vector2) -> void:
 
 func _attack() -> void:
 	_attack_cooldown = 1.0 / attack_speed
-	if _attack_target and is_instance_valid(_attack_target):
+	if not (_attack_target and is_instance_valid(_attack_target)):
+		return
+	if attack_range > 150.0:
+		# Ranged (caster / cannon) — fire a projectile; damage on arrival
+		_fire_projectile()
+	else:
+		# Melee — instant damage
 		CombatSystem.deal_damage(self, _attack_target, attack_damage, CombatSystem.DamageType.PHYSICAL)
+
+
+func _fire_projectile() -> void:
+	var proj := TowerProjectile.new()
+	get_parent().add_child(proj)
+	proj.setup(
+		global_position, _attack_target, self, attack_damage,
+		CombatSystem.DamageType.PHYSICAL,
+		500.0,                        # speed — slower than tower shots
+		Color(0.3, 0.9, 1.0),         # cyan bolt for caster minions
+		7.0                           # slightly smaller dot
+	)
 
 
 # Search only for living units (minions/champions) — NOT buildings.
