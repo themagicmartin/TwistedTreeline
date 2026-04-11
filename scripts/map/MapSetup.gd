@@ -26,31 +26,31 @@ extends Node2D
 # ---- Structure data ----
 # [position, team, tower_type, lane]
 const TOWERS := [
-	# Blue top lane (left to right)
-	[Vector2(600,   200),  1, "outer",     "top"],
-	[Vector2(1200,  200),  1, "inner",     "top"],
+	# Blue top lane — outer is farthest from blue base (highest x), inhibitor is closest
+	[Vector2(1100,  200),  1, "outer",     "top"],
+	[Vector2(650,   200),  1, "inner",     "top"],
 	[Vector2(320,   200),  1, "inhibitor", "top"],
 	# Blue bot lane
-	[Vector2(600,  1800),  1, "outer",     "bot"],
-	[Vector2(1200, 1800),  1, "inner",     "bot"],
+	[Vector2(1100, 1800),  1, "outer",     "bot"],
+	[Vector2(650,  1800),  1, "inner",     "bot"],
 	[Vector2(320,  1800),  1, "inhibitor", "bot"],
 	# Blue nexus tower
-	[Vector2(250,  1000),  1, "nexus",     "top"],
-	# Red top lane (right to left)
-	[Vector2(2600,  200),  2, "outer",     "top"],
-	[Vector2(2000,  200),  2, "inner",     "top"],
+	[Vector2(200,  1000),  1, "nexus",     "mid"],
+	# Red top lane — outer is farthest from red base (lowest x), inhibitor is closest
+	[Vector2(2100,  200),  2, "outer",     "top"],
+	[Vector2(2550,  200),  2, "inner",     "top"],
 	[Vector2(2880,  200),  2, "inhibitor", "top"],
 	# Red bot lane
-	[Vector2(2600, 1800),  2, "outer",     "bot"],
-	[Vector2(2000, 1800),  2, "inner",     "bot"],
+	[Vector2(2100, 1800),  2, "outer",     "bot"],
+	[Vector2(2550, 1800),  2, "inner",     "bot"],
 	[Vector2(2880, 1800),  2, "inhibitor", "bot"],
 	# Red nexus tower
-	[Vector2(2950, 1000),  2, "nexus",     "top"],
+	[Vector2(3000, 1000),  2, "nexus",     "mid"],
 ]
 
 const NEXUSES := [
-	[Vector2(175,  1000), 1],
-	[Vector2(3025, 1000), 2],
+	[Vector2(120,  1000), 1],
+	[Vector2(3080, 1000), 2],
 ]
 
 const ALTARS := [
@@ -205,19 +205,20 @@ func _setup_wave_manager() -> void:
 	var wm: WaveManager = get_node_or_null("WaveManager")
 	if wm == null:
 		return
+
+	# Waypoints guide minions down the lane to the enemy fountain.
+	# They don't need to pass through tower positions — the BUILDING_DETECT_RANGE
+	# (700 px) causes minions to peel off and attack towers they approach.
+	# Spawn points sit just outside each team's base.
 	wm.blue_top_waypoints = [
-		Vector2(350, 200), Vector2(900, 200), Vector2(1600, 200),
-		Vector2(2300, 200), Vector2(2600, 200), Vector2(2850, 200),
+		Vector2(360, 200), Vector2(1600, 200), Vector2(3050, 200),
 	]
 	wm.blue_bot_waypoints = [
-		Vector2(350, 1800), Vector2(900, 1800), Vector2(1600, 1800),
-		Vector2(2300, 1800), Vector2(2600, 1800), Vector2(2850, 1800),
+		Vector2(360, 1800), Vector2(1600, 1800), Vector2(3050, 1800),
 	]
 	wm.red_top_waypoints = [
-		Vector2(2850, 200), Vector2(2300, 200), Vector2(1600, 200),
-		Vector2(900, 200), Vector2(600, 200), Vector2(350, 200),
+		Vector2(2840, 200), Vector2(1600, 200), Vector2(150, 200),
 	]
 	wm.red_bot_waypoints = [
-		Vector2(2850, 1800), Vector2(2300, 1800), Vector2(1600, 1800),
-		Vector2(900, 1800), Vector2(600, 1800), Vector2(350, 1800),
+		Vector2(2840, 1800), Vector2(1600, 1800), Vector2(150, 1800),
 	]

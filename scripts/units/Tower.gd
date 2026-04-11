@@ -18,17 +18,17 @@ const TOWER_STATS := {
 	"nexus":     {"hp": 2500.0, "dmg": 250.0, "range": 750.0, "as": 0.83},
 }
 
-var max_hp: float = 1800.0
-var current_hp: float = 1800.0
+var max_hp:       float = 1800.0
+var current_hp:   float = 1800.0
 var attack_damage: float = 175.0
-var attack_range: float = 750.0
-var attack_speed: float = 1.0   # attacks/sec
-var armor: float = 100.0
-var magic_resist: float = 100.0
+var attack_range:  float = 750.0
+var attack_speed:  float = 1.0   # attacks/sec
+var armor:         float = 100.0
+var magic_resist:  float = 100.0
 
 var _attack_target: Node = null
 var _attack_cooldown: float = 0.0
-var _first_shot_on_champion: bool = true  # for true damage first shot
+var _first_shot_on_champion: bool = true
 
 var gold_value: float = 150.0
 var xp_value:   float = 0.0
@@ -44,8 +44,8 @@ func _ready() -> void:
 		add_to_group("enemy_units_" + str(GameManager.Team.BLUE))
 
 	var stats: Dictionary = TOWER_STATS.get(tower_type, TOWER_STATS["outer"])
-	max_hp       = stats["hp"]
-	current_hp   = max_hp
+	max_hp        = stats["hp"]
+	current_hp    = max_hp
 	attack_damage = stats["dmg"]
 	attack_range  = stats["range"]
 	attack_speed  = stats["as"]
@@ -61,11 +61,16 @@ func _process(delta: float) -> void:
 
 
 func _find_target() -> void:
-	# Prefer champion being attacked by this tower's team minions, else nearest enemy champion, else minions
-	if _attack_target and is_instance_valid(_attack_target) and not ("is_dead" in _attack_target and _attack_target.is_dead):
-		if global_position.distance_to(_attack_target.global_position) <= attack_range + 50.0:
-			return
+	# Keep current target if still alive and in range
+	if _attack_target and is_instance_valid(_attack_target):
+		var target_dead: bool = "is_dead" in _attack_target and _attack_target.is_dead
+		if not target_dead:
+			var dist := global_position.distance_to(_attack_target.global_position)
+			if dist <= attack_range + 50.0:
+				return  # retain current target
 
+	# Pick a new target — champions > minions > other
+	var prev_target := _attack_target
 	_attack_target = null
 	var best_priority := -1
 	var best_dist := attack_range
@@ -79,6 +84,11 @@ func _find_target() -> void:
 			continue
 		if "is_dead" in unit and unit.is_dead:
 			continue
+		# Towers and nexus don't attack each other
+		if unit.is_in_group("towers"):
+			continue
+		if unit.is_in_group("nexus_team_1") or unit.is_in_group("nexus_team_2"):
+			continue
 		var dist := global_position.distance_to(unit.global_position)
 		if dist > attack_range:
 			continue
@@ -88,8 +98,10 @@ func _find_target() -> void:
 			best_dist = dist
 			_attack_target = unit
 
-	if _attack_target != _attack_target:  # target changed
-		_first_shot_on_champion = true
+	# Reset first-shot flag whenever we switch to a new champion target
+	if _attack_target != prev_target:
+		if _attack_target != null and _attack_target.has_method("_setup_abilities"):
+			_first_shot_on_champion = true
 
 
 func _get_target_priority(unit: Node) -> int:
@@ -106,9 +118,8 @@ func _fire() -> void:
 		return
 	_attack_cooldown = 1.0 / attack_speed
 
-	var is_champ := _attack_target.has_method("_setup_abilities")
+	var is_champ: bool = _attack_target.has_method("_setup_abilities")
 	if is_champ and _first_shot_on_champion:
-		# First shot deals true damage
 		_first_shot_on_champion = false
 		CombatSystem.deal_damage(self, _attack_target, attack_damage, CombatSystem.DamageType.TRUE_DAMAGE)
 	else:
@@ -117,13 +128,17 @@ func _fire() -> void:
 
 func take_damage(amount: float, source: Node, _dtype: int) -> void:
 	current_hp -= amount
+	# Update health bar if present
+	var hbar := get_node_or_null("HealthBar")
+	if hbar:
+		hbar.value = (current_hp / max_hp) * 100.0
 	if current_hp <= 0.0:
 		_destroy(source)
 
 
 func _destroy(killer: Node) -> void:
 	current_hp = 0.0
-	# Award gold to killer's team
+	# Split gold reward across the killer's team
 	if killer and "team" in killer:
 		get_tree().call_group("champions_team_" + str(killer.team), "add_gold", gold_value / 3.0)
 
