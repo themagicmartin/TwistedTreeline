@@ -15,8 +15,8 @@ var is_minion: bool = true   # used by tower priority check
 
 const STATS := {
 	"melee":  {"hp": 475.0,  "ad": 21.0,  "as": 1.0,  "range": 110.0, "speed": 325.0, "gold": 21.0, "xp": 58.0},
-	"caster": {"hp": 280.0,  "ad": 24.0,  "as": 0.67, "range": 600.0, "speed": 325.0, "gold": 14.0, "xp": 40.0},
-	"cannon": {"hp": 840.0,  "ad": 40.0,  "as": 0.67, "range": 600.0, "speed": 325.0, "gold": 45.0, "xp": 92.0},
+	"caster": {"hp": 280.0,  "ad": 24.0,  "as": 0.67, "range": 300.0, "speed": 325.0, "gold": 14.0, "xp": 40.0},
+	"cannon": {"hp": 840.0,  "ad": 40.0,  "as": 0.67, "range": 300.0, "speed": 325.0, "gold": 45.0, "xp": 92.0},
 	"super":  {"hp": 1500.0, "ad": 190.0, "as": 0.83, "range": 175.0, "speed": 300.0, "gold": 40.0, "xp": 97.0},
 }
 
@@ -143,13 +143,13 @@ func _march(_delta: float) -> void:
 		_waypoint_index += 1
 		target_wp = waypoints[_waypoint_index]
 
-	nav_agent.target_position = target_wp
-
-	if nav_agent.is_navigation_finished():
+	# Direct movement — the map is one open rectangle so we don't need nav-mesh
+	# pathfinding; this also avoids NavigationAgent2D one-frame startup delays
+	# that caused minions to freeze on spawn.
+	if global_position.distance_to(target_wp) < 4.0:
 		velocity = Vector2.ZERO
 	else:
-		var next := nav_agent.get_next_path_position()
-		velocity = global_position.direction_to(next) * move_speed
+		velocity = global_position.direction_to(target_wp) * move_speed
 
 
 func _move_toward(target_pos: Vector2) -> void:

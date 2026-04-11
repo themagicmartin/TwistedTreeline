@@ -42,17 +42,23 @@ func _spawn_lane_wave(team: int, lane: String, _wave_number: int, is_cannon: boo
 	var spawn_pos: Vector2 = waypoints[0]
 	var super_active: bool = _super_minion_lanes.get(team, {}).get(lane, false)
 
+	# Stagger minions BEHIND the spawn point relative to their march direction so
+	# they never need to walk backward on the first step.
+	# Blue marches right (+x), so stagger left (−x).
+	# Red marches left (−x), so stagger right (+x).
+	var x_step: float = -40.0 if team == GameManager.Team.BLUE else 40.0
+
 	if super_active:
 		_spawn_minion(team, lane, "super", spawn_pos, waypoints)
-		_spawn_minion(team, lane, "melee", spawn_pos + Vector2(30, 0), waypoints)
+		_spawn_minion(team, lane, "melee", spawn_pos + Vector2(x_step, 0), waypoints)
 	else:
-		# Standard wave: 3 melee + 3 caster (+ cannon every 3rd wave)
+		# Standard wave: 3 melee in front row, 3 casters behind
 		for i in range(3):
-			_spawn_minion(team, lane, "melee", spawn_pos + Vector2(i * 40, 0), waypoints)
+			_spawn_minion(team, lane, "melee",  spawn_pos + Vector2(x_step * i, 0),  waypoints)
 		for i in range(3):
-			_spawn_minion(team, lane, "caster", spawn_pos + Vector2(i * 40, 50), waypoints)
+			_spawn_minion(team, lane, "caster", spawn_pos + Vector2(x_step * i, 50), waypoints)
 		if is_cannon:
-			_spawn_minion(team, lane, "cannon", spawn_pos + Vector2(-40, 25), waypoints)
+			_spawn_minion(team, lane, "cannon", spawn_pos + Vector2(x_step * 3, 25), waypoints)
 
 
 func _spawn_minion(team: int, lane: String, type: String, pos: Vector2, waypoints: Array) -> void:

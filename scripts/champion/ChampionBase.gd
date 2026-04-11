@@ -93,6 +93,7 @@ var is_local_player: bool = false
 
 
 func _ready() -> void:
+	add_to_group("all_units")       # makes champions visible to tower targeting
 	add_to_group("all_champions")
 	add_to_group("champions_team_" + str(team))
 	add_to_group("player_" + str(player_id))

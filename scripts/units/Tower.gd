@@ -125,6 +125,16 @@ func _fire() -> void:
 	else:
 		CombatSystem.deal_damage(self, _attack_target, attack_damage, CombatSystem.DamageType.PHYSICAL)
 
+	# Spawn a visual projectile so the player can see the tower shooting
+	_spawn_projectile(_attack_target)
+
+
+func _spawn_projectile(target: Node) -> void:
+	var proj := TowerProjectile.new()
+	# Add to the map so the projectile is in world space
+	get_parent().add_child(proj)
+	proj.setup(global_position, target)
+
 
 func take_damage(amount: float, source: Node, _dtype: int) -> void:
 	current_hp -= amount
